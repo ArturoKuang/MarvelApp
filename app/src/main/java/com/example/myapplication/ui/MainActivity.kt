@@ -1,5 +1,6 @@
 package com.example.myapplication.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.viewModels
@@ -45,6 +46,13 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }
+        }
+
+        findViewById<Button>(R.id.buttonNext).apply {
+            setOnClickListener {
+                val intent = Intent(this@MainActivity, ComposeActivity::class.java)
+                startActivity(intent)
             }
         }
     }
