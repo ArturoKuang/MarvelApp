@@ -2,10 +2,16 @@ package com.example.myapplication.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -14,6 +20,7 @@ import com.example.myapplication.utils.Resource
 import com.example.myapplication.viewmodel.MarvelViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -32,19 +39,14 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.button).apply {
             setOnClickListener {
-                lifecycleScope.launch {
-                    marvelViewModel.characterFlow.collect { response ->
-                        if (response.status == Resource.Status.SUCCESS) {
-                            val list = response.data!!.data.results.map {
-                                MarvelDisplayData(
-                                    it.name,
-                                    it.thumbnail.getImagePath(Thumbnail.ImageSize.STANDARD_AMAZING)
-                                )
-                            }
+                marvelViewModel.getChars()
+            }
+        }
 
-                            adapter.add(list)
-                        }
-                    }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                marvelViewModel.characterStateFlow.collect {
+                    adapter.add(list = it)
                 }
             }
         }
@@ -54,6 +56,21 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, ComposeActivity::class.java)
                 startActivity(intent)
             }
+        }
+
+        findViewById<EditText>(R.id.edittext).apply {
+            addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    Timber.d(p0.toString())
+                    marvelViewModel.searchCharacters(p0.toString())
+                }
+            })
         }
     }
 }
