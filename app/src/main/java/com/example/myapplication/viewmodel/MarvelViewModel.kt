@@ -1,12 +1,10 @@
 package com.example.myapplication.viewmodel
 
-import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.data.model.CharacterResponse
 import com.example.myapplication.data.model.Thumbnail
 import com.example.myapplication.data.remote.MarvelRepository
-import com.example.myapplication.ui.MarvelDisplayData
+import com.example.myapplication.ui.model.MarvelDisplayData
 import com.example.myapplication.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -30,7 +28,7 @@ class MarvelViewModel @Inject constructor(
             marvelRepository.getCharacters().map { response ->
                 var list: List<MarvelDisplayData> = emptyList()
                 if (response.status == Resource.Status.SUCCESS) {
-                    list = response.data?.data?.results?.map {
+                    list = response.data?.marvelData?.results?.map {
                         MarvelDisplayData(
                             it.name,
                             it.thumbnail.getImagePath(Thumbnail.ImageSize.STANDARD_AMAZING)

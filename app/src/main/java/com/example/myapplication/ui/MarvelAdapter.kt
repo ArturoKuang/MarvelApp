@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import coil.transform.RoundedCornersTransformation
-import com.example.myapplication.R
 import com.example.myapplication.databinding.MarvelItemBinding
+import com.example.myapplication.ui.model.MarvelDisplayData
 
 class MarvelAdapter : Adapter<MarvelAdapter.MarvelViewHolder>() {
 

@@ -1,6 +1,14 @@
 package com.example.myapplication.di
 
+import android.content.Context
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.room.Room
 import com.example.myapplication.Config
+import com.example.myapplication.data.local.MarvelDatabase
+import com.example.myapplication.data.local.MarvelEntity
+import com.example.myapplication.data.local.MarvelRemoteMediator
 import com.example.myapplication.data.remote.MarvelApi
 import com.example.myapplication.data.remote.MarvelInterceptor
 import com.example.myapplication.data.remote.MarvelRemoteDataSource
@@ -10,6 +18,7 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
@@ -67,7 +76,35 @@ object AppModule {
         )
     }
 
+    @Singleton
+    @Provides
+    fun provideMarvelDatabase(
+        @ApplicationContext appContext: Context
+    ): MarvelDatabase {
+        return Room.databaseBuilder(
+            appContext,
+            MarvelDatabase::class.java,
+            "marvel_db"
+        ).build()
+    }
+
     @Provides
     fun provideMarvelService(retrofit: Retrofit): MarvelApi =
         retrofit.create(MarvelApi::class.java)
+
+    @OptIn(ExperimentalPagingApi::class)
+    @Provides
+    @Singleton
+    fun provideBeerPager(marvelDb: MarvelDatabase, marvelApi: MarvelRemoteDataSource): Pager<Int, MarvelEntity> {
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            remoteMediator = MarvelRemoteMediator(
+                database = marvelDb,
+                marvelService = marvelApi
+            ),
+            pagingSourceFactory = {
+                marvelDb.marvelDao.pagingSource()
+            }
+        )
+    }
 }

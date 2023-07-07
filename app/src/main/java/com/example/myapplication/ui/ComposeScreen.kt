@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.myapplication.ui.model.MarvelDisplayData
 import com.example.myapplication.viewmodel.MarvelViewModel
 
 @Composable
