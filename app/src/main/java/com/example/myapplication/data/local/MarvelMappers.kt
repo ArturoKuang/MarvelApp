@@ -6,7 +6,6 @@ import com.example.myapplication.ui.model.MarvelCardData
 
 fun Result.toMarvelEntity(): MarvelEntity {
     return MarvelEntity(
-        id = name.hashCode(),
         name = name,
         thumbnailUrl = thumbnail.getImagePath(Thumbnail.ImageSize.STANDARD_AMAZING),
         preference = Preference.NONE
@@ -21,6 +20,6 @@ fun MarvelEntity.toMarvelCardData(): MarvelCardData {
 
 fun MarvelCardData.toMarvelEntity(): MarvelEntity {
     return MarvelEntity(
-        id = name.hashCode(),  name, thumbnailUrl, preference
+        name, thumbnailUrl, preference
     )
 }

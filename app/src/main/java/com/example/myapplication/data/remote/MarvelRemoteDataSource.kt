@@ -11,6 +11,6 @@ class MarvelRemoteDataSource @Inject constructor(
         @Query("limit") limit: Int = 100,
         @Query("offset") offset: Int = 0
     ) = getResult {
-        marvelApi.getCharacters()
+        marvelApi.getCharacters(limit, offset)
     }
 }

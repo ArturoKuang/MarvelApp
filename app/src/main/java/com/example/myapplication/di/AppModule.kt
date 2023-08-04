@@ -9,6 +9,7 @@ import com.example.myapplication.Config
 import com.example.myapplication.data.local.MarvelDatabase
 import com.example.myapplication.data.local.MarvelEntity
 import com.example.myapplication.data.local.MarvelRemoteMediator
+import com.example.myapplication.data.local.RemoteKeyDatabase
 import com.example.myapplication.data.remote.MarvelApi
 import com.example.myapplication.data.remote.MarvelInterceptor
 import com.example.myapplication.data.remote.MarvelRemoteDataSource
@@ -97,13 +98,13 @@ object AppModule {
     @Singleton
     fun provideBeerPager(marvelDb: MarvelDatabase, marvelApi: MarvelRemoteDataSource): Pager<Int, MarvelEntity> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = 100),
             remoteMediator = MarvelRemoteMediator(
-                database = marvelDb,
+                marvelDatabase = marvelDb,
                 marvelService = marvelApi
             ),
             pagingSourceFactory = {
-                marvelDb.marvelDao.pagingSource()
+                marvelDb.getMarvelDao().pagingSource()
             }
         )
     }

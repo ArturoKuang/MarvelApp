@@ -91,10 +91,13 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.8.1'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
     testImplementation 'androidx.test:core:1.5.0'
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
     // For local unit tests
     testImplementation 'com.google.dagger:hilt-android-testing:2.46'
     testAnnotationProcessor 'com.google.dagger:hilt-compiler:2.46'
     kaptTest "com.google.dagger:hilt-android-compiler:2.44.2"
+    testImplementation "io.mockk:mockk:1.13.5"
+
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
