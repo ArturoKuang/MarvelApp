@@ -6,8 +6,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import com.example.myapplication.data.local.MarvelDatabase
 import com.example.myapplication.data.local.MarvelEntity
 import com.example.myapplication.data.local.MarvelRemoteMediator
@@ -55,7 +53,7 @@ class MarvelRemoteMediatorTest {
         assertTrue(result is RemoteMediator.MediatorResult.Success)
 
         // Assert
-        val dbResult = TestModule.marvelDatabase.marvelDao.pagingSource().load(
+        val dbResult = TestModule.marvelDatabase.getMarvelDao().pagingSource().load(
             PagingSource.LoadParams.Refresh(
                 key = null,
                 loadSize = 10,

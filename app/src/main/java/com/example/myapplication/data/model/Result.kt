@@ -1,29 +1,31 @@
 package com.example.myapplication.data.model
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Result(
-    @SerializedName("comics")
+    @SerialName("comics")
     val comics: Comics,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String,
-    @SerializedName("events")
+    @SerialName("events")
     val events: Events,
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("modified")
+    @SerialName("modified")
     val modified: String,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("resourceURI")
+    @SerialName("resourceURI")
     val resourceURI: String,
-    @SerializedName("series")
+    @SerialName("series")
     val series: Series,
-    @SerializedName("stories")
+    @SerialName("stories")
     val stories: Stories,
-    @SerializedName("thumbnail")
+    @SerialName("thumbnail")
     val thumbnail: Thumbnail,
-    @SerializedName("urls")
+    @SerialName("urls")
     val urls: List<Url>
 )

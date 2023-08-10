@@ -16,12 +16,15 @@ import com.example.myapplication.data.remote.MarvelRemoteDataSource
 import com.example.myapplication.data.remote.MarvelRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -39,6 +42,8 @@ object AppModule {
         gson: Gson,
         marvelInterceptor: MarvelInterceptor
     ): Retrofit {
+        val contentType = "application/json".toMediaType()
+
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BASIC
 
@@ -51,7 +56,7 @@ object AppModule {
         return Retrofit.Builder()
             .baseUrl(Config.MARVEL_BASE_URL)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(Json.asConverterFactory(contentType))
             .build()
     }
 

@@ -1,12 +1,14 @@
 package com.example.myapplication.data.model
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Thumbnail(
-    @SerializedName("extension")
+    @SerialName("extension")
     val extension: String,
-    @SerializedName("path")
+    @SerialName("path")
     val path: String
 ) {
     fun getImagePath(imageSize: ImageSize): String {

@@ -1,17 +1,19 @@
 package com.example.myapplication.data.model
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Data(
-    @SerializedName("count")
+    @SerialName("count")
     val count: Int,
-    @SerializedName("limit")
+    @SerialName("limit")
     val limit: Int,
-    @SerializedName("offset")
+    @SerialName("offset")
     val offset: Int,
-    @SerializedName("results")
+    @SerialName("results")
     val results: List<Result>,
-    @SerializedName("total")
+    @SerialName("total")
     val total: Int
 )

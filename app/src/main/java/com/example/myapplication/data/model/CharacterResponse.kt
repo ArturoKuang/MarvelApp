@@ -1,21 +1,23 @@
 package com.example.myapplication.data.model
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CharacterResponse(
-    @SerializedName("attributionHTML")
+    @SerialName("attributionHTML")
     val attributionHTML: String,
-    @SerializedName("attributionText")
+    @SerialName("attributionText")
     val attributionText: String,
-    @SerializedName("code")
+    @SerialName("code")
     val code: Int,
-    @SerializedName("copyright")
+    @SerialName("copyright")
     val copyright: String,
-    @SerializedName("data")
+    @SerialName("data")
     val marvelData: Data,
-    @SerializedName("etag")
+    @SerialName("etag")
     val etag: String,
-    @SerializedName("status")
+    @SerialName("status")
     val status: String
 )

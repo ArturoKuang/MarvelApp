@@ -1,11 +1,13 @@
 package com.example.myapplication.data.model
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Url(
-    @SerializedName("type")
+    @SerialName("type")
     val type: String,
-    @SerializedName("url")
+    @SerialName("url")
     val url: String
 )

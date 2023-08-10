@@ -1,8 +1,9 @@
 package com.example.myapplication.mvi
 
 import com.example.myapplication.fake.MarvelRepositoryFake
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -24,13 +25,13 @@ class MarvelListMiddlewareTest {
 
     @Test
     fun `when list action refresh success`() {
+        coEvery { store.dispatch(any()) } returns Unit
+
         runTest {
             middleware.dispatch(ListAction.RefreshAction, state, store)
         }
-        verify {
-            runTest {
-                store.dispatch(ListAction.ListLoadListStarted)
-            }
+        coVerify {
+            store.dispatch(ListAction.ListLoadListStarted)
         }
     }
 }

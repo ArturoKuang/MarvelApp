@@ -1,15 +1,17 @@
 package com.example.myapplication.data.model
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Comics(
-    @SerializedName("available")
+    @SerialName("available")
     val available: Int,
-    @SerializedName("collectionURI")
+    @SerialName("collectionURI")
     val collectionURI: String,
-    @SerializedName("items")
+    @SerialName("items")
     val items: List<Item>,
-    @SerializedName("returned")
+    @SerialName("returned")
     val returned: Int
 )

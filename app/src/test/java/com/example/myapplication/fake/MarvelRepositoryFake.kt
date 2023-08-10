@@ -12,7 +12,7 @@ import java.io.File
 
 class MarvelRepositoryFake : IMarvelRepository {
 
-    private val characterJsonFile = "marvelCharacters.json"
+    private val characterJsonFile = "./src/test/resources/marvel_response.json"
     private val characterResponse: CharacterResponse
 
     enum class Behavior {
@@ -23,6 +23,7 @@ class MarvelRepositoryFake : IMarvelRepository {
     var behavior = Behavior.SUCCESS
 
     init {
+        println(File(characterJsonFile).absolutePath)
         val file: String = File(characterJsonFile).readText()
         characterResponse = Json.decodeFromString(file)
     }

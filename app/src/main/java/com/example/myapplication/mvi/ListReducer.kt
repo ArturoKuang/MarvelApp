@@ -1,4 +1,9 @@
 package com.example.myapplication.mvi
 
-class ListReducer {
+import com.example.mvi.Reducer
+
+class ListReducer : Reducer<ListAction, ListViewState> {
+    override fun reduce(action: ListAction, state: ListViewState): ListViewState {
+        TODO("Not yet implemented")
+    }
 }
