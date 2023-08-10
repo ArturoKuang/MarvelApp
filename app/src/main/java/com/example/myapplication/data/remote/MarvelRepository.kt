@@ -8,12 +8,16 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
+interface IMarvelRepository {
+    fun getCharacters(): Flow<Resource<CharacterResponse>>
+}
+
 class MarvelRepository @Inject constructor(
     private val marvelRemoteDataSource: MarvelRemoteDataSource,
     private val dispatcher: CoroutineDispatcher
-) {
+) : IMarvelRepository {
 
-    fun getCharacters(): Flow<Resource<CharacterResponse>> {
+    override fun getCharacters(): Flow<Resource<CharacterResponse>> {
         return flow {
             emit(Resource.loading())
 

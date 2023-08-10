@@ -47,5 +47,12 @@ fun MainScreen() {
         }) {
             Text(text = "Compose Card Swipe")
         }
+
+        Button(onClick = {
+            val intent = Intent(context, ComposeMviList::class.java)
+            context.startActivity(intent)
+        }) {
+            Text(text = "MVI Compose List")
+        }
     }
 }
