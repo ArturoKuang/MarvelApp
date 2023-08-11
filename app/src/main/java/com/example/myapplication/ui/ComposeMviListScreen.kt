@@ -1,5 +1,6 @@
 package com.example.myapplication.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
@@ -26,12 +28,13 @@ fun ListScreen(
     modifier: Modifier = Modifier,
     marvelMviViewModel: MarvelMviViewModel = viewModel()
 ) {
+    //TODO
     // Perhaps we can store in viewmodel, flow, and add debounce logic
     // https://proandroiddev.com/reclaim-the-reactivity-of-your-state-management-say-no-to-imperative-mvi-3b23ca6b8537
     val textState = remember { mutableStateOf(TextFieldValue()) }
-
     val viewState = marvelMviViewModel.viewState.collectAsState()
-
+    val context = LocalContext.current
+    Toast.makeText(context, viewState.value.popUpMessage, Toast.LENGTH_SHORT).show()
     Column {
         TextButton(onClick = { marvelMviViewModel.refresh() }) {
             Text(text = "Load List")
