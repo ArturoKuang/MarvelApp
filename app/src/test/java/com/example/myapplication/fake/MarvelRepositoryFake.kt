@@ -13,7 +13,8 @@ import java.io.File
 class MarvelRepositoryFake : IMarvelRepository {
 
     private val characterJsonFile = "./src/test/resources/marvel_response.json"
-    private val characterResponse: CharacterResponse
+    val characterResponse: CharacterResponse
+    val errorMessage = "simulating http error"
 
     enum class Behavior {
         SUCCESS,
@@ -45,6 +46,6 @@ class MarvelRepositoryFake : IMarvelRepository {
     private fun getCharactersFail() = flow<Resource<CharacterResponse>> {
         emit(Resource.loading())
         delay(1000L)
-        emit(Resource.error("simulating http error"))
+        emit(Resource.error(errorMessage))
     }
 }
