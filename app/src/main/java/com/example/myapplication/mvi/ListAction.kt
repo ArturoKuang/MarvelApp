@@ -8,10 +8,10 @@ import com.example.myapplication.data.model.CharacterResponse
  */
 sealed class ListAction : Action {
     object RefreshAction : ListAction()
-    object ListLoadListStarted: ListAction()
-    data class ListActionListSuccess(val characterResponse: CharacterResponse): ListAction()
-    data class ListActionListFailed(val error: String): ListAction()
-    object ClickListItemAction : ListAction()
-    object Search : ListAction()
+    object ListLoadListStarted : ListAction()
+    data class ListActionListSuccess(val characterResponse: CharacterResponse) : ListAction()
+    data class ListActionListFailed(val error: String) : ListAction()
+    data class ClickListItemAction(val item: ListViewState.ListItemViewState) : ListAction()
+    data class Search(val query: String) : ListAction()
 }
 

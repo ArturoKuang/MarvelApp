@@ -7,8 +7,6 @@ import com.example.mvi.ViewState
 
 class ListStore(
     initialState: ListViewState,
-    reducer: Reducer<ListAction, ListViewState>,
+    reducer: ListReducer,
     middlewares: List<Middleware<ListAction, ListViewState, Store<ListAction, ListViewState>>>
-) : Store<ListAction, ListViewState>(initialState, reducer, middlewares) {
-
-}
+) : Store<ListAction, ListViewState>(initialState, reducer, middlewares)
