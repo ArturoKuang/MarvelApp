@@ -12,7 +12,7 @@ class ListReducer : Reducer<ListAction, ListViewState> {
             }
             is ListAction.ListActionListFailed -> {
                 state.copy(
-                    popUpMessage = "failed to load list",
+                    popUpMessage = action.error,
                     refresh = false
                 )
             }
@@ -24,7 +24,8 @@ class ListReducer : Reducer<ListAction, ListViewState> {
             }
             is ListAction.Search -> {
                 state.copy(
-                    search = action.query
+                    search = action.query,
+                    list = state.list.filter { it.name.contains(action.query) }
                 )
             }
             ListAction.ListLoadListStarted -> {
