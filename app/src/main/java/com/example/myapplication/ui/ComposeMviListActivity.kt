@@ -6,14 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import dagger.hilt.android.AndroidEntryPoint
 
-class ComposeMviList : ComponentActivity() {
+@AndroidEntryPoint
+class ComposeMviListActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             Surface(modifier = Modifier.fillMaxSize()) {
-
+                ListScreen()
             }
         }
     }

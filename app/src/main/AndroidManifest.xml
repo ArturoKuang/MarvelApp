@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ComposeMviList"
+            android:name=".ui.ComposeMviListActivity"
             android:exported="true" />
     </application>
 

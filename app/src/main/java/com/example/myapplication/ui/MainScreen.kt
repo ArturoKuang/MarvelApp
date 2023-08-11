@@ -49,7 +49,7 @@ fun MainScreen() {
         }
 
         Button(onClick = {
-            val intent = Intent(context, ComposeMviList::class.java)
+            val intent = Intent(context, ComposeMviListActivity::class.java)
             context.startActivity(intent)
         }) {
             Text(text = "MVI Compose List")
