@@ -8,8 +8,8 @@ import androidx.room.Room
 import com.example.myapplication.Config
 import com.example.myapplication.data.local.MarvelDatabase
 import com.example.myapplication.data.local.MarvelEntity
+import com.example.myapplication.data.local.MarvelLocalDataSource
 import com.example.myapplication.data.local.MarvelRemoteMediator
-import com.example.myapplication.data.local.RemoteKeyDatabase
 import com.example.myapplication.data.remote.MarvelApi
 import com.example.myapplication.data.remote.MarvelInterceptor
 import com.example.myapplication.data.remote.MarvelRemoteDataSource
@@ -28,7 +28,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.text.DateFormat
 import javax.inject.Singleton
 
@@ -74,10 +73,11 @@ object AppModule {
     @Provides
     fun provideRepository(
         marvelRemoteDataSource: MarvelRemoteDataSource,
+        marvelLocalDataSource: MarvelLocalDataSource
     ): MarvelRepository {
-
         return MarvelRepository(
             marvelRemoteDataSource,
+            marvelLocalDataSource,
             Dispatchers.IO
         )
     }

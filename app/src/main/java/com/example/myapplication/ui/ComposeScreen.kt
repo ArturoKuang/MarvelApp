@@ -27,27 +27,29 @@ fun ComposeScreen(
 ) {
     val textState = remember { mutableStateOf(TextFieldValue()) }
 
-    val characterList =
-        marvelViewModel.characterStateFlow.collectAsState()
-
+    val viewState =
+        marvelViewModel.viewState.collectAsState()
 
     Column {
+        if (viewState.value.loading) {
+            Text(text = "LOADING.........")
+        }
+
         TextButton(onClick = { marvelViewModel.getChars() }) {
             Text(text = "Load List")
         }
 
         TextField(
-            value = textState.value,
-            onValueChange = { newText: TextFieldValue ->
-                textState.value = newText
-                marvelViewModel.searchCharacters(newText.text)
+            value = viewState.value.query,
+            onValueChange = { newText: String ->
+                marvelViewModel.searchCharacters(newText)
             },
             label = { Text("Enter something") },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
 
-        CharacterList(list = characterList.value)
+        CharacterList(list = viewState.value.list)
     }
 }
 

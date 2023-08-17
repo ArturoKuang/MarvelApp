@@ -1,5 +1,7 @@
 package com.example.myapplication.data.remote
 
+import com.example.myapplication.data.local.MarvelEntity
+import com.example.myapplication.data.local.MarvelLocalDataSource
 import com.example.myapplication.data.model.CharacterResponse
 import com.example.myapplication.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,6 +16,7 @@ interface IMarvelRepository {
 
 class MarvelRepository @Inject constructor(
     private val marvelRemoteDataSource: MarvelRemoteDataSource,
+    private val marvelLocalDataSource: MarvelLocalDataSource,
     private val dispatcher: CoroutineDispatcher
 ) : IMarvelRepository {
 
@@ -24,5 +27,9 @@ class MarvelRepository @Inject constructor(
             val result = marvelRemoteDataSource.getCharacters()
             emit(result)
         }.flowOn(dispatcher)
+    }
+
+    suspend fun searchCharacters(name: String): List<MarvelEntity> {
+        return marvelLocalDataSource.searchCharacters(name)
     }
 }

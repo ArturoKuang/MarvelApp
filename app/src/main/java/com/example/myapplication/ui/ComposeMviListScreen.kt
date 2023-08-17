@@ -33,15 +33,15 @@ fun ListScreen(
     modifier: Modifier = Modifier, marvelMviViewModel: MarvelMviViewModel = viewModel()
 ) {
     //TODO
-    // Perhaps we can store in viewmodel, flow, and add debounce logic
-    // https://proandroiddev.com/reclaim-the-reactivity-of-your-state-management-say-no-to-imperative-mvi-3b23ca6b8537
-    // look into swipe to refresh, clean up test code, optimize compose code, write compose test
+    // clean up test code (viewmodel robot look at adam repo), optimize compose code, write compose test
     val textState = remember { mutableStateOf(TextFieldValue()) }
     val viewState = marvelMviViewModel.viewState.collectAsState()
     val pullRefreshState =
         rememberPullRefreshState(viewState.value.refresh, { marvelMviViewModel.refresh() })
     val context = LocalContext.current
-    Toast.makeText(context, viewState.value.popUpMessage, Toast.LENGTH_SHORT).show()
+    if (viewState.value.popUpMessage.isNotEmpty())
+        Toast.makeText(context, viewState.value.popUpMessage, Toast.LENGTH_SHORT).show()
+
     Column(
         Modifier.pullRefresh(pullRefreshState)
     ) {

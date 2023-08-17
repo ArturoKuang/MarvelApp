@@ -1,5 +1,6 @@
 package com.example.myapplication.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.remote.MarvelRepository
@@ -15,7 +16,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MarvelMviViewModel @Inject constructor(marvelRepository: MarvelRepository) : ViewModel() {
+class MarvelMviViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    marvelRepository: MarvelRepository) : ViewModel() {
 
     private val store = ListStore(
         initialState = ListViewState(), reducer = ListReducer(), middlewares = listOf(

@@ -13,6 +13,9 @@ interface MarvelDao {
     @Upsert
     suspend fun insert(data: MarvelEntity)
 
+    @Query("SELECT * FROM MarvelEntity WHERE name LIKE '%' || :namePart || '%'")
+    suspend fun searchCharacters(namePart: String): List<MarvelEntity>
+
     @Query("DELETE FROM marvelentity")
     suspend fun clearAll()
 
