@@ -14,6 +14,7 @@ import com.example.myapplication.data.remote.MarvelApi
 import com.example.myapplication.data.remote.MarvelInterceptor
 import com.example.myapplication.data.remote.MarvelRemoteDataSource
 import com.example.myapplication.data.remote.MarvelRepository
+import com.example.myapplication.data.remote.SSERepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -81,6 +82,10 @@ object AppModule {
             Dispatchers.IO
         )
     }
+
+    @Singleton
+    @Provides
+    fun provideSSERepository(): SSERepository = SSERepository()
 
     @Singleton
     @Provides

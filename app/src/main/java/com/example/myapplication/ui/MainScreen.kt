@@ -54,5 +54,12 @@ fun MainScreen() {
         }) {
             Text(text = "MVI Compose List")
         }
+
+        Button(onClick = {
+            val intent = Intent(context, SSEActivity::class.java)
+            context.startActivity(intent)
+        }) {
+            Text(text = "SSE")
+        }
     }
 }

@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
 
@@ -17,5 +18,16 @@ class MainActivity : ComponentActivity() {
                 MainScreen()
             }
         }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        Timber.d("onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.d("onStop()")
     }
 }
