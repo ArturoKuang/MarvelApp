@@ -61,5 +61,12 @@ fun MainScreen() {
         }) {
             Text(text = "SSE")
         }
+
+        Button(onClick = {
+            val intent = Intent(context, TwitchActivity::class.java)
+            context.startActivity(intent)
+        }) {
+            Text(text = "Twitch oAuth Demo")
+        }
     }
 }

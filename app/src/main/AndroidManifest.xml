@@ -37,6 +37,7 @@
             android:name=".ui.ComposeMviListActivity"
             android:exported="true" />
         <activity android:name=".ui.SSEActivity" />
+        <activity android:name=".ui.TwitchActivity" />
     </application>
 
 </manifest>
