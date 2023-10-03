@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -39,15 +40,13 @@ class MarvelViewModel @Inject constructor(
 
     val characterStateFlow: StateFlow<List<MarvelDisplayData>> = _characterStateFlow
 
-    private val cacheCharacter: MutableList<MarvelDisplayData> = mutableListOf()
-
     private val isLoading = MutableStateFlow(false)
 
     private val currentQuery = savedStateHandle.getLiveData("currentQuery", "")
 
     val marvelList: Flow<List<MarvelDisplayData>> = currentQuery.asFlow()
         .distinctUntilChanged()
-        .debounce(TimeUnit.SECONDS.toMillis(1L))
+        .debounce(TimeUnit.MILLISECONDS.toMillis(300L))
         .onEach { query ->
             if (query.isNotEmpty()) {
                 isLoading.value = true
@@ -66,7 +65,12 @@ class MarvelViewModel @Inject constructor(
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), listOf())
 
     val viewState =
-        combine(currentQuery.asFlow(), isLoading, _characterStateFlow, marvelList) { query, loading, characters, marvelData ->
+        combine(
+            currentQuery.asFlow(),
+            isLoading,
+            _characterStateFlow,
+            marvelList
+        ) { query, loading, characters, marvelData ->
             if (query.isEmpty()) {
                 MarvelStateMvm(characters, loading, query = query)
             } else {
@@ -95,10 +99,34 @@ class MarvelViewModel @Inject constructor(
                 list
             }.collect { value ->
                 _characterStateFlow.value = value
-                cacheCharacter.clear()
-                cacheCharacter.addAll(value)
             }
         }
+    }
+
+    fun getCharacterRealm() {
+        viewModelScope.launch {
+            marvelRepository.getCharactersRealm().collect {
+                Timber.d("GETTING REALM CHARS: ${it.joinToString()}")
+            }
+        }
+
+    }
+
+    fun searchCharacterRealm() {
+        val searchFlow = currentQuery.asFlow().flatMapLatest {
+            marvelRepository.searchCharacterRealm(it)
+        }
+
+        viewModelScope.launch {
+            searchFlow.collect {
+                Timber.d("SEARCHING REALM CHARS: ${currentQuery.value} list: ${it.joinToString()}")
+            }
+        }
+    }
+
+    init {
+        getCharacterRealm()
+        searchCharacterRealm()
     }
 
 //    fun searchCharacters(name: String) {

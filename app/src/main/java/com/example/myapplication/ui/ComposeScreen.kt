@@ -43,31 +43,6 @@ import com.example.myapplication.viewmodel.MarvelViewModel
 import timber.log.Timber
 
 @Composable
-fun screen(flowViewModel: FlowViewModel = viewModel()) {
-    SideEffect {
-        Timber.d("COMPOSE SCREEN")
-    }
-
-//    var state = flowViewModel.collectFlow.collectAsStateWithLifecycle()
-//    TextOne(text = state.value.firstOrNull().toString())
-
-    Column {
-        for ((id, flow) in flowViewModel.map) {
-            val s = flow.collectAsStateWithLifecycle()
-            TextOne(text = "$id ${s.value.joinToString()}")
-        }
-    }
-}
-
-@Composable
-fun TextOne(text: String) {
-    SideEffect {
-        Timber.d("COMPOSE TEXTONE")
-    }
-    Text(text = text)
-}
-
-@Composable
 fun ComposeScreen(
     modifier: Modifier = Modifier,
     marvelViewModel: MarvelViewModel = viewModel()
@@ -98,30 +73,6 @@ fun ComposeScreen(
 
         CharacterList(list = viewState.value.list)
     }
-}
-
-@Preview
-@Composable
-fun f() {
-    var value by remember { mutableStateOf(1) }
-
-    Column {
-        CompositionLocalProvider(localTest1 provides value) {
-            SideEffect { firstRecompositionCounter.increment() }
-
-            MyRow {
-                Text("Text is ${localTest1.current}")
-            }
-        }
-
-        Button(
-            modifier = Modifier.testTag("button"),
-            onClick = { value++ }
-        ) {
-            Text("Increment")
-        }
-    }
-
 }
 
 @Composable

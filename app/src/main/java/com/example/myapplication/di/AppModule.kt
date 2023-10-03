@@ -10,6 +10,8 @@ import com.example.myapplication.data.local.MarvelDatabase
 import com.example.myapplication.data.local.MarvelEntity
 import com.example.myapplication.data.local.MarvelLocalDataSource
 import com.example.myapplication.data.local.MarvelRemoteMediator
+import com.example.myapplication.data.realm.MarvelObject
+import com.example.myapplication.data.realm.RealmLocalDataSource
 import com.example.myapplication.data.remote.MarvelApi
 import com.example.myapplication.data.remote.MarvelInterceptor
 import com.example.myapplication.data.remote.MarvelRemoteDataSource
@@ -23,6 +25,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -74,11 +78,13 @@ object AppModule {
     @Provides
     fun provideRepository(
         marvelRemoteDataSource: MarvelRemoteDataSource,
-        marvelLocalDataSource: MarvelLocalDataSource
+        marvelLocalDataSource: MarvelLocalDataSource,
+        realmLocalDataSource: RealmLocalDataSource
     ): MarvelRepository {
         return MarvelRepository(
             marvelRemoteDataSource,
             marvelLocalDataSource,
+            realmLocalDataSource,
             Dispatchers.IO
         )
     }
@@ -99,6 +105,20 @@ object AppModule {
         ).build()
     }
 
+    @Singleton
+    @Provides
+    fun provideRealmDatabase(): Realm {
+        val config =
+            RealmConfiguration.create(schema = setOf(MarvelObject::class))
+        return Realm.open(config)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRealmDataSource(realm: Realm): RealmLocalDataSource {
+        return RealmLocalDataSource(realm)
+    }
+
     @Provides
     fun provideMarvelService(retrofit: Retrofit): MarvelApi =
         retrofit.create(MarvelApi::class.java)
@@ -106,7 +126,10 @@ object AppModule {
     @OptIn(ExperimentalPagingApi::class)
     @Provides
     @Singleton
-    fun provideBeerPager(marvelDb: MarvelDatabase, marvelApi: MarvelRemoteDataSource): Pager<Int, MarvelEntity> {
+    fun provideBeerPager(
+        marvelDb: MarvelDatabase,
+        marvelApi: MarvelRemoteDataSource
+    ): Pager<Int, MarvelEntity> {
         return Pager(
             config = PagingConfig(pageSize = 100),
             remoteMediator = MarvelRemoteMediator(
