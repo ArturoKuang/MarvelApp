@@ -41,9 +41,9 @@ class MarvelViewModel @Inject constructor(
 
     private val cacheCharacter: MutableList<MarvelDisplayData> = mutableListOf()
 
-    private val currentQuery = savedStateHandle.getLiveData("currentQuery", "")
-
     private val isLoading = MutableStateFlow(false)
+
+    private val currentQuery = savedStateHandle.getLiveData("currentQuery", "")
 
     val marvelList: Flow<List<MarvelDisplayData>> = currentQuery.asFlow()
         .distinctUntilChanged()

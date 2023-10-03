@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
+import retrofit2.http.DELETE
 
 @Dao
 interface MarvelDao {
@@ -16,9 +17,8 @@ interface MarvelDao {
     @Query("SELECT * FROM MarvelEntity WHERE name LIKE '%' || :namePart || '%'")
     suspend fun searchCharacters(namePart: String): List<MarvelEntity>
 
-    @Query("DELETE FROM marvelentity")
+    @Query("DELETE FROM MarvelEntity")
     suspend fun clearAll()
-
     @Query("SELECT * FROM MarvelEntity")
     fun pagingSource(): PagingSource<Int, MarvelEntity>
 }
