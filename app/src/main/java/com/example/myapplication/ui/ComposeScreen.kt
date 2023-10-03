@@ -97,10 +97,6 @@ fun ComposeScreen(
         )
 
         CharacterList(list = viewState.value.list)
-
-        Counter()
-        Counter1()
-        f()
     }
 }
 
@@ -127,98 +123,6 @@ fun f() {
     }
 
 }
-
-private val localTest1: ProvidableCompositionLocal<Int> = compositionLocalOf {
-    0
-}
-
-private val localTest2: ProvidableCompositionLocal<Int> = staticCompositionLocalOf {
-    0
-}
-
-val firstRecompositionCounter = RecompositionCounter()
-val secondRecompositionCounter = RecompositionCounter()
-
-@Composable
-private fun MyRow(content: @Composable () -> Unit) {
-    Row {
-        SideEffect { secondRecompositionCounter.increment() }
-        content()
-    }
-}
-
-@Immutable
-class RecompositionCounter {
-    private var count = 0
-
-    fun increment() {
-        count++
-    }
-
-    fun count() = count
-    fun reset() {
-        count = 0
-    }
-}
-
-
-@Composable
-fun Counter() {
-    // Define a state variable for the count
-    val count = remember { mutableIntStateOf(0) }
-
-    // Use SideEffect to log the current value of count
-    SideEffect {
-        // Called on every recomposition
-        Timber.d("Count0 is ${count.intValue}")
-    }
-
-    println("recomposed outer")
-
-    Column {
-        Button(onClick = { count.intValue++ }) {
-            Text("Increase Count")
-        }
-
-        // With every state update, text is changed and recomposition is triggered
-//        Column {
-//            println("recomposed inner")
-//            Text("Counter ${count.intValue}")
-//        }
-        InnerCounter(count = count)
-    }
-}
-
-@Composable
-fun InnerCounter(count: MutableIntState) {
-    // With every state update, text is changed and recomposition is triggered
-    Column {
-        Text("Counter ${count.intValue}")
-    }
-}
-
-@Composable
-fun Counter1() {
-    // Define a state variable for the count
-    val count = remember { mutableStateOf(0) }
-
-    // Use SideEffect to log the current value of count
-    SideEffect {
-        // Called on every recomposition
-        Timber.d("Count1 is ${count.value}")
-    }
-
-    println("0 inner")
-    Column {
-        Button(onClick = { count.value++ }) {
-            // This recomposition doesn't trigger the outer side effect
-            // every time button has been tapped
-            println("1 inner")
-            Text("Increase Count ${count.value}")
-        }
-    }
-}
-
 
 @Composable
 fun CharacterList(modifier: Modifier = Modifier, list: List<MarvelDisplayData>) {
